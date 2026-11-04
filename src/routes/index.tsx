@@ -66,7 +66,7 @@ function Scanner() {
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="Enter your e-commerce store URL — https://brand.com"
+          placeholder="yourstore.com"
           className="flex-1 rounded-xl bg-transparent px-4 py-3 text-base outline-none placeholder:text-muted-foreground"
           aria-label="Store URL"
         />
@@ -446,7 +446,7 @@ function HeroVisual() {
           </div>
         </div>
       </div>
-      <div className="absolute -left-6 top-24 hidden -rotate-3 rounded-2xl border bg-card px-4 py-3 shadow-[var(--shadow-elegant)] sm:block">
+      <div className="absolute -left-8 top-1/2 hidden -rotate-3 rounded-2xl border bg-card px-4 py-3 shadow-[var(--shadow-elegant)] sm:block">
         <p className="text-xs text-muted-foreground">AI visibility</p>
         <p className="font-display text-2xl font-bold text-success">48 → 96</p>
       </div>
