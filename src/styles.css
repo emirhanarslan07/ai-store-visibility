@@ -98,6 +98,7 @@
   --code-foreground: oklch(0.9 0.02 150);
   --code-border: oklch(0.3 0.03 250);
   --gradient-hero: radial-gradient(60% 50% at 50% 0%, color-mix(in oklab, var(--accent) 35%, transparent), transparent);
+  --gradient-product: linear-gradient(135deg, oklch(0.82 0.06 240), oklch(0.93 0.03 90));
   --shadow-elegant: 0 20px 50px -20px color-mix(in oklab, var(--primary) 35%, transparent);
 }
 
