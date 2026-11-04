@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import shirtBlue from "@/assets/shirt-blue.jpg";
+import shirtWhite from "@/assets/shirt-white.jpg";
+import shirtSand from "@/assets/shirt-sand.jpg";
 import shopifyLogo from "@/assets/logos/shopify.svg.asset.json";
 import ikasLogo from "@/assets/logos/ikas.svg.asset.json";
 import woocommerceLogo from "@/assets/logos/woocommerce.svg.asset.json";
@@ -58,7 +61,7 @@ function Scanner() {
   const domain = url.replace(/^https?:\/\//, "").replace(/\/.*$/, "");
 
   return (
-    <div className="mx-auto mt-10 w-full max-w-2xl">
+    <div className="mx-auto mt-10 w-full max-w-2xl text-left">
       <form onSubmit={run} className="flex flex-col gap-2 rounded-2xl border bg-card p-2 shadow-[var(--shadow-elegant)] sm:flex-row">
         <input
           value={url}
@@ -165,19 +168,22 @@ function Index() {
         </div>
       </header>
 
-      <section id="top" className="relative overflow-hidden px-6 pb-24 pt-20 text-center">
+      <section id="top" className="relative overflow-hidden px-6 pb-24 pt-16 lg:pt-24">
         <div className="pointer-events-none absolute inset-0 bg-[image:var(--gradient-hero)]" />
-        <div className="relative mx-auto max-w-4xl">
-          <span className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-xs font-medium">
-            <span className="h-1.5 w-1.5 rounded-full bg-success" /> AI-Readiness engine for e-commerce
-          </span>
-          <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-            Get your products recommended by <span className="text-accent-strong">ChatGPT</span> & Perplexity.
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            When shoppers ask ChatGPT what to buy, it recommends stores whose product info it can read. 80% of stores are missing sizes, colors, barcodes or shipping details, so ChatGPT recommends their competitors. We find what's missing and fix it for you.
-          </p>
-          <Scanner />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="text-center lg:text-left">
+            <span className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-xs font-medium shadow-sm">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-success" /> 1,200+ stores already scanned
+            </span>
+            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
+              Get your products recommended by <span className="relative whitespace-nowrap text-accent-strong">ChatGPT<svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 8" preserveAspectRatio="none"><path d="M2 6 Q100 -2 198 6" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round"/></svg></span>.
+            </h1>
+            <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground lg:mx-0">
+              Shoppers now ask AI what to buy. If AI can't read your sizes, colors, barcodes and shipping info, it recommends your competitors. We find what's missing and fix it for you.
+            </p>
+            <div className="lg:-mx-0 [&>div]:lg:mx-0"><Scanner /></div>
+          </div>
+          <HeroVisual />
         </div>
       </section>
 
@@ -310,8 +316,8 @@ function Plan({ name, price, per, items, featured }: { name: string; price: stri
 function ChatDemo() {
   const [after, setAfter] = useState(false);
   const items = after
-    ? [["Your Store", "Blue Linen Shirt", "$89", "S · M · L · XL", true], ["Competitor A", "Classic Linen Shirt", "$95", "M · L", false], ["Competitor B", "Relaxed Linen Shirt", "$99", "S · M", false]]
-    : [["Competitor A", "Classic Linen Shirt", "$95", "M · L", false], ["Competitor B", "Relaxed Linen Shirt", "$99", "S · M", false], ["Competitor C", "Summer Linen Shirt", "$79", "S · M · L", false]];
+    ? [["Your Store", "Blue Linen Shirt", "$89", "S · M · L · XL", true, shirtBlue], ["Competitor A", "Classic Linen Shirt", "$95", "M · L", false, shirtWhite], ["Competitor B", "Relaxed Linen Shirt", "$99", "S · M", false, shirtSand]]
+    : [["Competitor A", "Classic Linen Shirt", "$95", "M · L", false, shirtWhite], ["Competitor B", "Relaxed Linen Shirt", "$99", "S · M", false, shirtSand], ["Competitor C", "Summer Linen Shirt", "$79", "S · M · L", false, shirtWhite]];
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-6 flex justify-center">
@@ -330,9 +336,9 @@ function ChatDemo() {
           <div className="text-sm">
             <p>Here are some great linen shirts under $100:</p>
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              {items.map(([store, name, price, sizes, you]) => (
+              {items.map(([store, name, price, sizes, you, img]) => (
                 <div key={store as string} className={`rounded-xl border p-3 ${you ? "border-success ring-2 ring-success/30" : ""}`}>
-                  <div className="aspect-square rounded-lg bg-[image:var(--gradient-product)]" />
+                  <img src={img as string} alt={name as string} loading="lazy" width={816} height={816} className="aspect-square w-full rounded-lg object-cover" />
                   <p className="mt-2 font-medium">{name}</p>
                   <p className="text-xs text-muted-foreground">{store} · {sizes}</p>
                   <p className="mt-1 font-semibold">{price} <span className="text-xs font-normal text-success">· In stock · Free shipping</span></p>
@@ -357,7 +363,7 @@ function ProductCards() {
         <div key={String(ok)} className="rounded-2xl border bg-card p-6">
           <p className={`text-sm font-semibold ${ok ? "text-success" : "text-destructive"}`}>{ok ? "✓ How AI & Google see it after" : "✕ How AI & Google see it today"}</p>
           <div className="mt-4 flex gap-4">
-            <div className="h-28 w-28 shrink-0 rounded-xl bg-[image:var(--gradient-product)]" />
+            <img src={shirtBlue} alt="Linen shirt" loading="lazy" width={816} height={816} className={`h-32 w-32 shrink-0 rounded-xl object-cover ${ok ? "" : "opacity-60 grayscale"}`} />
             <div className="space-y-1.5 text-sm">
               <p className="font-semibold">Linen Shirt</p>
               <Row ok={ok} label="Price" v="$89.00 USD" />
@@ -419,6 +425,33 @@ function Sheet() {
       <div className="flex gap-1 border-t bg-secondary px-2 pt-1 text-xs">
         <span className="rounded-t-md border border-b-0 bg-card px-3 py-1 font-medium">Products</span>
         <span className="px-3 py-1 text-muted-foreground">Change log</span>
+      </div>
+    </div>
+  );
+}
+
+function HeroVisual() {
+  return (
+    <div className="relative mx-auto w-full max-w-md">
+      <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent/30 blur-3xl" />
+      <div className="rotate-1 rounded-3xl border bg-card p-5 shadow-[var(--shadow-elegant)]">
+        <div className="flex items-center gap-2 text-sm font-semibold"><img src={chatgptLogo.url} alt="" className="h-5 w-5" />ChatGPT</div>
+        <div className="ml-auto mt-4 w-fit rounded-2xl bg-secondary px-3 py-2 text-sm">Best linen shirt under $100?</div>
+        <p className="mt-4 text-sm">My top pick is this one from <b>your store</b>:</p>
+        <div className="mt-3 overflow-hidden rounded-2xl border">
+          <img src={shirtBlue} alt="Blue linen shirt" width={816} height={816} className="aspect-[4/3] w-full object-cover" />
+          <div className="flex items-center justify-between p-4">
+            <div><p className="font-semibold">Blue Linen Shirt</p><p className="text-xs text-muted-foreground">S · M · L · XL · Free shipping</p></div>
+            <p className="font-display text-xl font-bold">$89</p>
+          </div>
+        </div>
+      </div>
+      <div className="absolute -left-6 top-24 hidden -rotate-3 rounded-2xl border bg-card px-4 py-3 shadow-[var(--shadow-elegant)] sm:block">
+        <p className="text-xs text-muted-foreground">AI visibility</p>
+        <p className="font-display text-2xl font-bold text-success">48 → 96</p>
+      </div>
+      <div className="absolute -bottom-5 -right-4 hidden rotate-2 items-center gap-2 rounded-2xl border bg-card px-4 py-3 text-sm font-medium shadow-[var(--shadow-elegant)] sm:flex">
+        <img src={googleLogo.url} alt="" className="h-5 w-5" /> Merchant Center approved ✓
       </div>
     </div>
   );
